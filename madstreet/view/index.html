@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>One stop notes</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- <link rel="stylesheet" href="../css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="../css/myStyle.css">
+
+    <script src="../js/common/jquery.min.js"></script>
+    <script src="../js/common/angular.min.js"></script>
+    <script src="../js/common/angular-sanitize.min.js"></script>
+    <script src="../js/common/bootstrap.min.js"></script>
+
+
+
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-sanitize.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+    <script src="../js/myScript.js"></script>
+
+</head>
+
+<body>
+    <div class="container" ng-app="myNotesList" ng-controller="myCtrl" ng-init="init()">
+        <h1 class="jumbotron">Notes App</h1>
+
+        <div class="row">
+            <div class="col-lg-4" ng-repeat="x in notes">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <h4><strong>{{ x.no + ". " + x.title }}</strong></h4>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <h5>
+                            <i class="glyphicon glyphicon-fire" style="color:red;" ng-show="x.priority"></i>
+                            <i class="glyphicon glyphicon-zoom-in" data-target="#myModal" ng-click="magnifyNote($index)"></i>
+                            <i class="glyphicon glyphicon-pencil" data-target="#editModal" ng-click="editNote($index)"></i>
+                            <i class="glyphicon glyphicon-trash" ng-click="removeNote($index)"></i>
+                        </h5>
+                    </div>
+                </div>
+
+                <div class="row container">
+                    <textarea rows="5" cols="45" style="background-color: #fffbd5;" ng-dblclick="magnifyNote($index)" data-target="#myModal" readonly>{{ x.value }}</textarea><br />
+                    {{ x.extra }}
+                </div>
+            </div>
+        </div>
+        <hr>
+
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">{{ magnifiedNote.title }}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <strong> Notes: </strong>
+                        <p> {{ magnifiedNote.value }} </p>
+                        <strong> Additional info: </strong>
+                        <p> {{ magnifiedNote.extra }} </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="editModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <strong>Title</strong><input ng-model="modifyNote.title" class="form-control" required>
+                    </div>
+                    <div class="modal-body">
+                        <strong>Note</strong><textarea ng-model="modifyNote.value" rows="10" class="form-control" required></textarea><br />
+                        <strong>Extra</strong><input ng-model="modifyNote.extra" class="form-control">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Save</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <button class="accordion" ng-click="accordianFunc()">Add a note</button>
+        <div class="panel">
+            <div class="row container">
+                <div class="col-lg-4"></div>
+                <div class="col-lg-4">
+                    <form>
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input ng-model="newNoteTitle" class="form-control" placeholder="Title" required><br>
+                            <label>Content</label>
+                            <textarea ng-model="newNoteValue" class="form-control" rows="5" cols="50" placeholder="Add your notes here" required></textarea><br>
+                            <label>Additional info</label>
+                            <input ng-model="newNoteExtra" class="form-control" placeholder="Extra .."><br>
+                            Check this if it is of high priority: <input type="checkbox" class="checkbox" ng-model="priority"><br>
+                            <button ng-click="addNote()">Add</button>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+        </div>
+
+    </div>
+</body>
+</html>
